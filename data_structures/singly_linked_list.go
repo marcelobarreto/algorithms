@@ -19,8 +19,11 @@ type SinglyLinkedList struct {
 }
 
 // NewSinglyLinkedList is a SinglyLinkedList factory
-func NewSinglyLinkedList() SinglyLinkedList {
+func NewSinglyLinkedList(values []int) SinglyLinkedList {
 	linkedList := SinglyLinkedList{}
+	for i := 0; i < len(values); i++ {
+		linkedList.push(values[i])
+	}
 	return linkedList
 }
 
@@ -206,7 +209,8 @@ func log(statement string, l SinglyLinkedList) {
 }
 
 func main() {
-	linkedList := NewSinglyLinkedList()
+	linkedList := NewSinglyLinkedList([]int{1, 2, 3, 4, 5})
+	log("after_init", linkedList)
 
 	linkedList.push(1)
 	linkedList.push(2)
