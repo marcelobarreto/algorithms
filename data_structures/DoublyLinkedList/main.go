@@ -89,16 +89,16 @@ func (d *DoublyLinkedList) unshift(val int) *DoublyLinkedList {
 	return d
 }
 
-func (d *DoublyLinkedList) get(index uint8) *Node {
+func (d *DoublyLinkedList) get(index byte) *Node {
 	if index == 0 {
 		return d.head
-	} else if index == uint8(d.length-1) {
+	} else if index == byte(d.length-1) {
 		return d.tail
-	} else if index > uint8(d.length-1) || d.length == 0 {
+	} else if index > byte(d.length-1) || d.length == 0 {
 		return nil
 	}
 
-	if index <= uint8(d.length/2) {
+	if index <= byte(d.length/2) {
 		current := d.head
 		for i := 1; i <= int(index); i++ {
 			current = current.next
@@ -113,8 +113,8 @@ func (d *DoublyLinkedList) get(index uint8) *Node {
 	return current
 }
 
-func (d *DoublyLinkedList) set(index uint8, val int) bool {
-	if d.length == 0 && index == 0 || index == uint8(d.length-1) {
+func (d *DoublyLinkedList) set(index byte, val int) bool {
+	if d.length == 0 && index == 0 || index == byte(d.length-1) {
 		d.push(val)
 		return true
 	}
@@ -130,13 +130,13 @@ func (d *DoublyLinkedList) set(index uint8, val int) bool {
 	return true
 }
 
-func (d *DoublyLinkedList) insert(index uint8, val int) bool {
-	if index >= uint8(d.length) {
+func (d *DoublyLinkedList) insert(index byte, val int) bool {
+	if index >= byte(d.length) {
 		return false
 	} else if index == 0 {
 		d.unshift(val)
 		return true
-	} else if index == uint8(d.length) {
+	} else if index == byte(d.length) {
 		d.push(val)
 		return true
 	}
@@ -155,13 +155,13 @@ func (d *DoublyLinkedList) insert(index uint8, val int) bool {
 	return true
 }
 
-func (d *DoublyLinkedList) remove(index uint8) bool {
-	if index >= uint8(d.length) {
+func (d *DoublyLinkedList) remove(index byte) bool {
+	if index >= byte(d.length) {
 		return false
 	} else if index == 0 {
 		d.shift()
 		return true
-	} else if index == uint8(d.length-1) {
+	} else if index == byte(d.length-1) {
 		d.pop()
 		return true
 	}
