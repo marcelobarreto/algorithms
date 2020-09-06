@@ -94,6 +94,8 @@ func (d *DoublyLinkedList) get(index uint8) *Node {
 		return d.head
 	} else if index == uint8(d.length-1) {
 		return d.tail
+	} else if index > uint8(d.length-1) || d.length == 0 {
+		return nil
 	}
 
 	if index <= uint8(d.length/2) {
@@ -109,6 +111,74 @@ func (d *DoublyLinkedList) get(index uint8) *Node {
 		current = current.prev
 	}
 	return current
+}
+
+func (d *DoublyLinkedList) set(index uint8, val int) bool {
+	if d.length == 0 && index == 0 || index == uint8(d.length-1) {
+		d.push(val)
+		return true
+	}
+
+	node := d.get(index)
+
+	if node == nil {
+		return false
+	}
+
+	node.val = val
+
+	return true
+}
+
+func (d *DoublyLinkedList) insert(index uint8, val int) bool {
+	if index >= uint8(d.length) {
+		return false
+	} else if index == 0 {
+		d.unshift(val)
+		return true
+	} else if index == uint8(d.length) {
+		d.push(val)
+		return true
+	}
+
+	node := d.get(index)
+	prev := node.prev
+	newNode := &Node{val: val}
+
+	node.prev = newNode
+	newNode.next = node
+	newNode.prev = prev
+	if prev != nil {
+		prev.next = newNode
+	}
+
+	return true
+}
+
+func (d *DoublyLinkedList) remove(index uint8) bool {
+	if index >= uint8(d.length) {
+		return false
+	} else if index == 0 {
+		d.shift()
+		return true
+	} else if index == uint8(d.length-1) {
+		d.pop()
+		return true
+	}
+
+	node := d.get(index)
+
+	if node == nil {
+		return false
+	}
+
+	prev := node.prev
+	next := node.next
+
+	prev.next = next
+	next.prev = prev
+	d.length--
+	return true
 }
 
 func log(statement string, d DoublyLinkedList) {
@@ -144,4 +214,37 @@ func main() {
 	fmt.Println("getting index: ", 5, linkedList.get(5)) // 6
 	fmt.Println("getting index: ", 6, linkedList.get(6)) // 7
 	fmt.Println("getting index: ", 7, linkedList.get(7)) // 8
+	fmt.Println("getting index: ", 8, linkedList.get(8)) // ?
+
+	linkedList.set(7, 800) // 1, 2, 3, 4, 5, 6, 7, 800
+	log("after_set", linkedList)
+	fmt.Println("setting index: ", 7, linkedList.get(7)) // ?
+
+	linkedList.set(8, 900) // 1, 2, 3, 4, 5, 6, 7, 800, 900
+	log("after_set", linkedList)
+	fmt.Println("setting index: ", 8, linkedList.get(8)) // 900
+
+	linkedList.insert(2, 232)
+	log("after_insert", linkedList)
+	fmt.Println("at index 2", linkedList.get(2), linkedList.get(2).prev, linkedList.get(2).next)
+
+	linkedList.insert(1, 231)
+	log("after_insert", linkedList)
+	fmt.Println("at index 1", linkedList.get(1), linkedList.get(1).prev, linkedList.get(1).next)
+
+	linkedList.insert(0, 230)
+	log("after_insert", linkedList)
+	fmt.Println("at index 0", linkedList.get(0), linkedList.get(0).prev, linkedList.get(0).next)
+
+	linkedList.remove(0)
+	log("after_remove", linkedList)
+	fmt.Println("at index 0", linkedList.get(0), linkedList.get(0).prev, linkedList.get(0).next)
+
+	linkedList.remove(9)
+	log("after_remove", linkedList)
+	fmt.Println("at index 8", linkedList.get(8), linkedList.get(8).prev, linkedList.get(8).next)
+
+	linkedList.remove(1)
+	log("after_remove", linkedList)
+	fmt.Println("at index 0", linkedList.get(1), linkedList.get(1).prev, linkedList.get(1).next)
 }
