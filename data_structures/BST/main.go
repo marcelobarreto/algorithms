@@ -70,6 +70,31 @@ func (b *BST) insert(value int) int {
 	return value
 }
 
+// bst - Breadth First Search
+func (b *BST) bsf() []int {
+	var data []int
+	var queue []*Node
+	var node *Node
+
+	node = b.root
+	queue = append(queue, node)
+
+	for len(queue) > 0 {
+		node = queue[0]
+		queue = append(queue[1:])
+		data = append(data, node.value)
+
+		if node.left != nil {
+			queue = append(queue, node.left)
+		}
+		if node.right != nil {
+			queue = append(queue, node.right)
+		}
+	}
+
+	return data
+}
+
 func main() {
 	bst := &BST{}
 	bst.insert(100)
@@ -84,4 +109,6 @@ func main() {
 	fmt.Println("trying to get 2 manually:", bst.root.left.left.left)
 	fmt.Println("finding 91:", bst.find(bst.root, 91))
 	fmt.Println("finding 90:", bst.find(bst.root, 90))
+
+	fmt.Println("BSF:", bst.bsf())
 }
