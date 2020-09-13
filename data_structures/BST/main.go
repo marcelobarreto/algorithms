@@ -70,7 +70,7 @@ func (b *BST) insert(value int) int {
 	return value
 }
 
-// bst - Breadth First Search
+// bsf - Breadth Search First
 func (b *BST) bsf() []int {
 	var data []int
 	var queue []*Node
